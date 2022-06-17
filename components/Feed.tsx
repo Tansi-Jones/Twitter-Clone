@@ -2,6 +2,7 @@ import { RefreshIcon } from "@heroicons/react/outline";
 import { Tweet } from "../typings";
 import { TweetBox } from "./TweetBox";
 
+import { Tweet as TweetComponent } from "../components/Tweet";
 interface Props {
   tweets: Tweet[];
 }
@@ -14,12 +15,16 @@ export const Feed = ({ tweets }: Props) => {
         <RefreshIcon className="h-8 w-8 cursor-pointer text-twitter mr-5 mt-5 transition-all duration-500 ease-out hover:rotate-180 active:scale-125" />
       </div>
 
-      {/* Twitte box */}
       <div className="">
         <TweetBox />
       </div>
 
       {/* Feed */}
+      <div>
+        {tweets.map((tweet) => (
+          <TweetComponent key={tweet._id} tweet={tweet} />
+        ))}
+      </div>
     </div>
   );
 };
