@@ -10,4 +10,4 @@ This is a Full-Stack Twitter 2.0 clone with;
 
 ## Deployment Link
 
-[Launch App](https://vercel.com?utm_source=github&utm_medium=readme&utm_campaign=next-example)
+[Launch App](https://twitter-clone-nine-chi.vercel.app)
