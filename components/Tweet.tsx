@@ -1,4 +1,5 @@
-import { Tweet as Tweets } from "../typings";
+import { useEffect, useState } from "react";
+import { Comment, Tweet as Tweets } from "../typings";
 import TimeAgo from "react-timeago";
 import {
   ChatAlt2Icon,
@@ -6,12 +7,24 @@ import {
   SwitchHorizontalIcon,
   UploadIcon,
 } from "@heroicons/react/outline";
+import { fetchComments } from "../utils/fetchComments";
 
 interface Props {
   tweet: Tweets;
 }
-
 export const Tweet = ({ tweet }: Props) => {
+  const [comments, setComments] = useState<Comment[]>([]);
+
+  const refreshComments = async () => {
+    const comments: Comment[] = await fetchComments(tweet._id);
+    setComments(comments);
+  };
+
+  useEffect(() => {
+    refreshComments();
+  }, []);
+  console.log(comments);
+
   return (
     <div className="flex- flex-col space-x-3 border-y p-5 border-gray-100">
       <div className="flex space-x-3">
@@ -24,7 +37,7 @@ export const Tweet = ({ tweet }: Props) => {
           <div className="flex items-center space-x-1">
             <p className="mr-1 font-bold">{tweet.userName}</p>
             <p className="hidden text-sm text-gray-500 sm:inline">
-              @{tweet.userName.replace(/\s+/g, "").toLowerCase()} .
+              @{tweet.userName.replace(/\s+/g, "_").toLowerCase()} .
             </p>
             <TimeAgo
               className="text-sm text-gray-500"

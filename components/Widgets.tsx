@@ -28,7 +28,7 @@ export const Widgets = () => {
       </div>
       <TwitterTimelineEmbed
         sourceType="profile"
-        screenName="Link_IO"
+        screenName="tansi_jones"
         options={{ height: 1000 }}
       />
     </div>
