@@ -16,8 +16,8 @@ export default {
       type: "boolean",
     },
     {
-      name: "username",
-      title: "Username",
+      name: "userName",
+      title: "UserName",
       type: "string",
     },
     {
