@@ -2,11 +2,11 @@
 
 This is a Full-Stack twitter 2.0 clone with;
 
--- Next Js
--- Tailwind CSS
--- TypScript
--- Sanity
--- NextAuth
+- Next Js
+- Tailwind CSS
+- TypScript
+- Sanity
+- NextAuth
 
 ## Deployment Link
 
