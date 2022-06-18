@@ -9,7 +9,7 @@ export default {
       type: "string",
     },
     {
-      name: "username",
+      name: "userName",
       title: "Username",
       type: "string",
     },
