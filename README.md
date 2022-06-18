@@ -3,6 +3,7 @@
 This is a Full-Stack Twitter 2.0 clone with;
 
 - Next Js
+- React Js
 - Tailwind CSS
 - TypScript
 - Sanity
