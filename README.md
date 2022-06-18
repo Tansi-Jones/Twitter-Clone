@@ -4,4 +4,4 @@ This is a Full-Stack twitter 2.0 clone
 
 ## Deployment Link
 
-[![Launch](Lauch)](https://tansi-jones.vercel.app)
+[![Launch](https://vercel.com/launch)](https://tansi-jones.vercel.app)
