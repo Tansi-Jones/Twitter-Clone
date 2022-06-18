@@ -2,7 +2,7 @@ import type { NextApiRequest, NextApiResponse } from "next";
 import { CommentBody } from "../../typings";
 
 type Data = {
-  name: string;
+  message: string;
 };
 
 export default async function handler(
@@ -38,5 +38,7 @@ export default async function handler(
     method: "POST",
   });
 
-  res.status(200).json({ name: "John Doe" });
+  const json = await result.json();
+
+  res.status(200).json({ message: "Done!" });
 }

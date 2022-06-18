@@ -1,5 +1,5 @@
 import React, { useEffect, useState } from "react";
-import { Comment, Tweet as Tweets } from "../typings";
+import { Comment, CommentBody, Tweet as Tweets } from "../typings";
 import TimeAgo from "react-timeago";
 import {
   ChatAlt2Icon,
@@ -10,6 +10,7 @@ import {
 import { fetchComments } from "../utils/fetchComments";
 import { Session } from "next-auth";
 import { useSession } from "next-auth/react";
+import toast from "react-hot-toast";
 
 interface Props {
   tweet: Tweets;
@@ -31,10 +32,37 @@ export const Tweet = ({ tweet }: Props) => {
 
   const handleSubmit = async (e: React.FormEvent<HTMLFormElement>) => {
     e.preventDefault();
+
+    const commentToast = toast.loading("Posting Comment...");
+
+    // Comment logic
+    const comment: CommentBody = {
+      comment: input,
+      tweetId: tweet._id,
+      userName: session?.user?.name || "Unknown User",
+      profileImg: session?.user?.image || "https://links.papareact.com/gll",
+    };
+
+    const result = await fetch(`/api/addComment`, {
+      body: JSON.stringify(comment),
+      method: "POST",
+    });
+
+    console.log("WOOHOO we made it", result);
+    toast.success("Comment Posted!", {
+      id: commentToast,
+    });
+
+    setInput("");
+    setCommentBoxVisible(false);
+    refreshComments();
   };
 
   return (
-    <div className="flex- flex-col space-x-3 border-y p-5 border-gray-100">
+    <div
+      key={tweet._id}
+      className="flex- flex-col space-x-3 border-y p-5 border-gray-100"
+    >
       <div className="flex space-x-3">
         <img
           src={tweet.profileImg}
@@ -104,7 +132,7 @@ export const Tweet = ({ tweet }: Props) => {
       )}
 
       {comments?.length > 0 && (
-        <div className="my-2 mt-5 max-h-44 space-y-5 overflow-y-scroll border-t border-gray-100 p-5">
+        <div className="my-2 mt-5 max-h-44 space-y-5 overflow-y-scroll border-t border-gray-100 p-5 scrollbar-hide">
           <div>
             {comments.map((comment) => (
               <div key={comment._id} className="relative flex space-x-2 pb-4">
