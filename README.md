@@ -1,6 +1,6 @@
 # Twitter Clone With Next.js + Tailwind CSS + TypeScript + Sanity
 
-This is a Full-Stack twitter 2.0 clone with;
+This is a Full-Stack Twitter 2.0 clone with;
 
 - Next Js
 - Tailwind CSS
@@ -10,4 +10,4 @@ This is a Full-Stack twitter 2.0 clone with;
 
 ## Deployment Link
 
-[Launch](https://vercel.com?utm_source=github&utm_medium=readme&utm_campaign=next-example)
+[Launch App](https://vercel.com?utm_source=github&utm_medium=readme&utm_campaign=next-example)
