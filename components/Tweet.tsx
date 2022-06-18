@@ -1,4 +1,4 @@
-import { useEffect, useState } from "react";
+import React, { useEffect, useState } from "react";
 import { Comment, Tweet as Tweets } from "../typings";
 import TimeAgo from "react-timeago";
 import {
@@ -8,12 +8,17 @@ import {
   UploadIcon,
 } from "@heroicons/react/outline";
 import { fetchComments } from "../utils/fetchComments";
+import { Session } from "next-auth";
+import { useSession } from "next-auth/react";
 
 interface Props {
   tweet: Tweets;
 }
 export const Tweet = ({ tweet }: Props) => {
   const [comments, setComments] = useState<Comment[]>([]);
+  const [commentBoxVisible, setCommentBoxVisible] = useState<boolean>(false);
+  const [input, setInput] = useState<string>("");
+  const { data: session } = useSession();
 
   const refreshComments = async () => {
     const comments: Comment[] = await fetchComments(tweet._id);
@@ -23,7 +28,10 @@ export const Tweet = ({ tweet }: Props) => {
   useEffect(() => {
     refreshComments();
   }, []);
-  console.log(comments);
+
+  const handleSubmit = async (e: React.FormEvent<HTMLFormElement>) => {
+    e.preventDefault();
+  };
 
   return (
     <div className="flex- flex-col space-x-3 border-y p-5 border-gray-100">
@@ -55,7 +63,10 @@ export const Tweet = ({ tweet }: Props) => {
         </div>
       </div>
       <div className="mt-5 flex justify-between">
-        <div className="flex cursor-pointer items-center space-x-3 text-gray-400">
+        <div
+          className="flex cursor-pointer items-center space-x-3 text-gray-400"
+          onClick={() => session && setCommentBoxVisible(!commentBoxVisible)}
+        >
           <ChatAlt2Icon className="h-5 w-5" />
           <p>{comments.length}</p>
         </div>
@@ -69,6 +80,29 @@ export const Tweet = ({ tweet }: Props) => {
           <UploadIcon className="h-5 w-5" />
         </div>
       </div>
+
+      {/* Comment Box Logic */}
+      {commentBoxVisible && (
+        <form className="mt-3 flex space-x-3" onSubmit={handleSubmit}>
+          <input
+            onChange={(e: React.ChangeEvent<HTMLInputElement>) =>
+              setInput(e.target.value)
+            }
+            type="text"
+            placeholder="Write a comment"
+            className="outline-none flex-1 rounded-lg bg-gray-100 p-2"
+            value={input}
+          />
+          <button
+            disabled={!input}
+            type="submit"
+            className="text-twitter disabled:text-gray-200"
+          >
+            Post
+          </button>
+        </form>
+      )}
+
       {comments?.length > 0 && (
         <div className="my-2 mt-5 max-h-44 space-y-5 overflow-y-scroll border-t border-gray-100 p-5">
           <div>
