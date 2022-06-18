@@ -6,9 +6,16 @@ import {
   SearchCircleIcon,
 } from "@heroicons/react/outline";
 import { useSession } from "next-auth/react";
-import { useState, useRef } from "react";
+import { useState, useRef, Dispatch, SetStateAction } from "react";
+import toast from "react-hot-toast";
+import { TweetBody, Tweet } from "../typings";
+import { fetchTweets } from "../utils/fetchTweets";
 
-export const TweetBox = () => {
+interface Props {
+  setTweets: Dispatch<SetStateAction<Tweet[]>>;
+}
+
+export const TweetBox = ({ setTweets }: Props) => {
   const [input, setInput] = useState<string>("");
   const [image, setImage] = useState<string>("");
 
@@ -18,7 +25,7 @@ export const TweetBox = () => {
   const [imageUrlBoxIsOpen, setImageUrlBoxIsOpen] = useState<Boolean>(false);
 
   const addImageToTweet = (
-    e: React.MouseEvent<HTMLButtonElement, MouseEvent>
+    e: React.MouseEvent<HTMLButtonElement, globalThis.MouseEvent>
   ) => {
     e.preventDefault();
 
@@ -26,6 +33,42 @@ export const TweetBox = () => {
 
     setImage(imageInputRef.current.value);
     imageInputRef.current.value = "";
+    setImageUrlBoxIsOpen(false);
+  };
+
+  const postTweet = async () => {
+    const tweetBody: TweetBody = {
+      text: input,
+      userName: session?.user?.name || "Unkwown User",
+      profileImg: session?.user?.image || "https://links.papareact.com/gll",
+      image: image,
+    };
+    console.log(image);
+
+    const result = await fetch(`/api/addTweet`, {
+      body: JSON.stringify(tweetBody),
+      method: "POST",
+    });
+
+    const json = await result.json();
+
+    const newTweets = await fetchTweets();
+    setTweets(newTweets);
+
+    toast("Tweet Posted", {
+      icon: "🚀",
+    });
+    return json;
+  };
+
+  const handleSubmit = (
+    e: React.MouseEvent<HTMLButtonElement, globalThis.MouseEvent>
+  ) => {
+    e.preventDefault();
+    postTweet();
+
+    setImage("");
+    setInput("");
     setImageUrlBoxIsOpen(false);
   };
 
@@ -58,6 +101,7 @@ export const TweetBox = () => {
             </div>
 
             <button
+              onClick={handleSubmit}
               disabled={!input || !session}
               className="bg-twitter text-white px-5 py-2 font-bold rounded-full disabled:opacity-40"
             >
@@ -65,7 +109,7 @@ export const TweetBox = () => {
             </button>
           </div>
           {imageUrlBoxIsOpen && (
-            <form className="mt-5 flex rounded-lf py-2 px-4 bg-twitter/80">
+            <div className="mt-5 flex rounded-lf py-2 px-4 bg-twitter/80">
               <input
                 ref={imageInputRef}
                 type="text"
@@ -74,12 +118,11 @@ export const TweetBox = () => {
               />
               <button
                 onClick={addImageToTweet}
-                type="submit"
                 className="font-bold text-white"
               >
                 Add Image
               </button>
-            </form>
+            </div>
           )}
           {image && (
             <img
