@@ -13,4 +13,4 @@ This is a Full-Stack Twitter 2.0 clone with;
 
 [Launch App](https://twitter-clone-nine-chi.vercel.app)
 
-![](https://img.shields.io/badge/<WORD_ON_LEFT>-<WORD_ON_RIGHT>-informational?style=flat&logo=<LOGO_NAME>&logoColor=white&color=2bbc8a)
+![](https://img.shields.io/badge/<WORD_ON_LEFT>-informational?style=flat&logo=<LOGO_NAME>&logoColor=white&color=2bbc8a)
