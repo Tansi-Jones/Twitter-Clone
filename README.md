@@ -13,4 +13,4 @@ This is a Full-Stack Twitter 2.0 clone with;
 
 [Launch App](https://twitter-clone-nine-chi.vercel.app)
 
-![](https://vercel.app/<Launch App>-informational?style=flat&logo=<LOGO_NAME>&logoColor=white&color=2bbc8a)
+
